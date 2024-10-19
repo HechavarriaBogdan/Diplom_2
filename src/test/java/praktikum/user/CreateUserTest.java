@@ -16,19 +16,28 @@ public class CreateUserTest {
     @After
     public void deleteUser() {
         if (accessToken != null) {
+            // Проверяем код и тело ответа после удаления
             ValidatableResponse deleteResponse = client.deleteUser(accessToken);
+            checks.checkDeleted(deleteResponse);
         }
     }
 
     @Test
     @DisplayName("Создание уникального пользователя")
     public void uniqueUser() {
-        // сгенерировали уникального пользователя
         var user = User.random();
-        // создали уникального пользователя
         ValidatableResponse createResponse = client.createUser(user);
-        // Передали accessToken, проверили статус-код и тело ответа
         accessToken = checks.checkCreateUser(createResponse);
+    }
+
+    @Test
+    @DisplayName("Создание пользователя, который уже зарегистрирован")
+    public void doubleUser() {
+        var user = User.random();
+        ValidatableResponse createResponse = client.createUser(user);
+        accessToken = checks.checkCreateUser(createResponse);
+        ValidatableResponse doubleCreateResponse = client.createUser(user);
+        checks.checkDoubleUser(doubleCreateResponse);
     }
 
 
