@@ -30,7 +30,8 @@ public class LoginUserTest {
         var user = User.random();
         var userLogin = UserCredentials.fromUser(user);
         ValidatableResponse createResponse = client.createUser(user);
-        checks.checkCreateUser(createResponse);
+        // передаем accessToken на случай если тест упадет на запросе авторизации
+        accessToken = checks.checkCreateUser(createResponse);
         ValidatableResponse loginResponse = client.loginUser(userLogin);
         accessToken = checks.checkSuccessLogin(loginResponse);
     }
