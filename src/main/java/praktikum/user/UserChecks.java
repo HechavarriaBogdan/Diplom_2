@@ -74,6 +74,17 @@ public class UserChecks {
                 .body("message", equalTo("You should be authorised"));
     }
 
+    @Step("Проверка невозможности обновить email пользователя на уже использующийся")
+    public void checkUpdateAlreadyExistValue(ValidatableResponse updateResponse) {
+        updateResponse
+                .assertThat()
+                .statusCode(HttpURLConnection.HTTP_FORBIDDEN)
+                .and()
+                .body("success", equalTo(false))
+                .body("message", equalTo("User with such email already exists"));
+
+    }
+
     @Step("Проверка успешного удаления пользователя")
     public void checkDeleted(ValidatableResponse deleteResponse) {
         deleteResponse

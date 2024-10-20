@@ -50,6 +50,20 @@ public class UpdateUserTest {
     @Test
     @DisplayName("Изменение почты на уже использующуюся")
     public void updateUserExistEmail() {
-
+        // Создать 1-ого пользователя
+        var userOne = User.random();
+        ValidatableResponse createResponseOne = client.createUser(userOne);
+        String accessTokenUserOne = checks.checkCreateUser(createResponseOne);
+        // Создать второго пользователя
+        var userTwo = User.random();
+        ValidatableResponse createResponseTwo = client.createUser(userTwo);
+        accessToken = checks.checkCreateUser(createResponseTwo);
+        // Изменяю данные второго пользователя на уже использующийся email
+        userTwo.setEmail(userOne.getEmail());
+        ValidatableResponse updateResponse = client.updateUser(accessToken, userTwo);
+        checks.checkUpdateAlreadyExistValue(updateResponse);
+        // Удалить 1-ого пользователя
+        ValidatableResponse deleteResponse = client.deleteUser(accessTokenUserOne);
+        checks.checkDeleted(deleteResponse);
     }
 }

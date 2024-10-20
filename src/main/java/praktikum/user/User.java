@@ -20,7 +20,7 @@ public class User {
     }
 
     // Метод генерирует рандомные данные для создания пользователя
-    static User random() {
+    public static User random() {
         Faker faker = new Faker();
         String randomName = faker.name().firstName();
         String email = faker.name().firstName() + "@" + LocalDateTime.now() + ".com";
