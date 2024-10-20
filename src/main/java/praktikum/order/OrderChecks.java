@@ -31,4 +31,18 @@ public class OrderChecks {
         MatcherAssert.assertThat(order.getOrder().getPrice(), notNullValue());
     }
 
+    @Step("Проверка успешного создания заказа без авторизации")
+    public void checkCreateOrderWithoutAuth(ValidatableResponse createOrderResponse) {
+        createOrderResponse
+                .assertThat()
+                .statusCode(HttpURLConnection.HTTP_OK)
+                .and()
+                .body("success", equalTo(true));
+        OrderResponse order = createOrderResponse.extract().as(OrderResponse.class);
+        MatcherAssert.assertThat(order.getName(), notNullValue());
+        MatcherAssert.assertThat(order.getName(), notNullValue());
+        MatcherAssert.assertThat(order.getOrder(), notNullValue());
+        MatcherAssert.assertThat(order.getOrder().getNumber(), notNullValue());
+    }
+
 }

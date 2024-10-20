@@ -32,7 +32,14 @@ public class CreateOrderTest {
         var user = User.random();
         ValidatableResponse createUserResponse = userClient.createUser(user);
         accessToken = userChecks.checkCreateUser(createUserResponse);
-        ValidatableResponse createOrderResponse = orderClient.createOrder(accessToken);
+        ValidatableResponse createOrderResponse = orderClient.createOrderWithAuth(accessToken);
         orderChecks.checkCreateOrderWithAuth(createOrderResponse);
+    }
+
+    @Test
+    @DisplayName("Создание заказа без авторизации")
+    public void createOrderWithoutAuth() {
+        ValidatableResponse createOrderResponse = orderClient.createOrderWithoutAuth();
+        orderChecks.checkCreateOrderWithoutAuth(createOrderResponse);
     }
 }
