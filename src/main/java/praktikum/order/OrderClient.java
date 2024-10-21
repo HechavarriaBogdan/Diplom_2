@@ -12,12 +12,10 @@ import static io.qameta.allure.model.Parameter.Mode.HIDDEN;
 
 public class OrderClient extends Credentials {
 
-    @Step("Создание заказа с авторизацией")
+    @Step("Создание заказа с авторизацией. Ингредиенты переданы")
     public ValidatableResponse createOrderWithAuth(@Param(mode = HIDDEN) String accessToken) {
         List<String> ingredients = new ArrayList<>();
-        ingredients.add("61c0c5a71d1f82001bdaaa6e");
-        ingredients.add("61c0c5a71d1f82001bdaaa73");
-        ingredients.add("61c0c5a71d1f82001bdaaa6d");
+        ingredients.add(VALID_INGREDIENT);
         IngredientList ingredientList = new IngredientList(ingredients);
         return spec()
                 .header("Authorization", accessToken)
@@ -27,12 +25,46 @@ public class OrderClient extends Credentials {
                 .then().log().all();
     }
 
-    @Step("Создание заказа без авторизации")
+    @Step("Создание заказа с авторизацией. Ингредиенты не переданы")
+    public ValidatableResponse createOrderWithAuthNoIngredients(@Param(mode = HIDDEN) String accessToken) {
+        List<String> ingredients = new ArrayList<>();
+        IngredientList ingredientList = new IngredientList(ingredients);
+        return spec()
+                .header("Authorization", accessToken)
+                .body(ingredientList)
+                .when()
+                .post("/orders")
+                .then().log().all();
+    }
+
+
+    @Step("Создание заказа без авторизации. Ингредиенты переданы")
     public ValidatableResponse createOrderWithoutAuth() {
         List<String> ingredients = new ArrayList<>();
-        ingredients.add("61c0c5a71d1f82001bdaaa6e");
-        ingredients.add("61c0c5a71d1f82001bdaaa73");
-        ingredients.add("61c0c5a71d1f82001bdaaa6d");
+        ingredients.add(VALID_INGREDIENT);
+        IngredientList ingredientList = new IngredientList(ingredients);
+        return spec()
+                .body(ingredientList)
+                .when()
+                .post("/orders")
+                .then().log().all();
+    }
+
+    @Step("Создание заказа без авторизации. Ингредиенты не переданы")
+    public ValidatableResponse createOrderWithoutAuthNoIngredients() {
+        List<String> ingredients = new ArrayList<>();
+        IngredientList ingredientList = new IngredientList(ingredients);
+        return spec()
+                .body(ingredientList)
+                .when()
+                .post("/orders")
+                .then().log().all();
+    }
+
+    @Step("Создание заказа без авторизации. Передан невалидный хеш ингредиента")
+    public ValidatableResponse createOrderWithoutAuthInvalidIngredient() {
+        List<String> ingredients = new ArrayList<>();
+        ingredients.add(INVALID_INGREDIENT);
         IngredientList ingredientList = new IngredientList(ingredients);
         return spec()
                 .body(ingredientList)
