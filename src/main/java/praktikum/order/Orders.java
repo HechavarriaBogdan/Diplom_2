@@ -1,17 +1,13 @@
 package praktikum.order;
 
-import java.util.List;
-
-public class Order {
-    private List<Ingredients> ingredients;
+public class Orders {
     private String _id;
-    private Owner owner;
+    private String[] ingredients;
     private String status;
     private String name;
     private String createdAt;
     private String updatedAt;
     private int number;
-    private int price;
 
     public String get_id() {
         return _id;
@@ -29,11 +25,11 @@ public class Order {
         this.createdAt = createdAt;
     }
 
-    public List<Ingredients> getIngredients() {
+    public String[] getIngredients() {
         return ingredients;
     }
 
-    public void setIngredients(List<Ingredients> ingredients) {
+    public void setIngredients(String[] ingredients) {
         this.ingredients = ingredients;
     }
 
@@ -51,22 +47,6 @@ public class Order {
 
     public void setNumber(int number) {
         this.number = number;
-    }
-
-    public Owner getOwner() {
-        return owner;
-    }
-
-    public void setOwner(Owner owner) {
-        this.owner = owner;
-    }
-
-    public int getPrice() {
-        return price;
-    }
-
-    public void setPrice(int price) {
-        this.price = price;
     }
 
     public String getStatus() {

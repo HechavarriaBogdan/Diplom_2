@@ -73,4 +73,21 @@ public class OrderClient extends Credentials {
                 .then().log().all();
     }
 
+    @Step("Получение заказов конкретного пользователя с авторизацией")
+    public ValidatableResponse getAllOrders(@Param(mode = HIDDEN) String accessToken) {
+        return spec()
+                .header("Authorization", accessToken)
+                .when()
+                .get("/orders")
+                .then().log().all();
+    }
+
+    @Step("Получение заказов пользователя без авторизации")
+    public ValidatableResponse getUserOrders() {
+        return spec()
+                .when()
+                .get("/orders")
+                .then().log().all();
+    }
+
 }

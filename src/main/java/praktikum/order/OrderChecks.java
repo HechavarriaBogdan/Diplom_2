@@ -5,6 +5,7 @@ import io.restassured.response.ValidatableResponse;
 import org.hamcrest.MatcherAssert;
 
 import java.net.HttpURLConnection;
+import java.util.List;
 
 import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.Matchers.notNullValue;
@@ -60,6 +61,37 @@ public class OrderChecks {
         createOrderResponse
                 .assertThat()
                 .statusCode(HttpURLConnection.HTTP_INTERNAL_ERROR);
+    }
+
+    @Step("Проверка успешного получения заказов конкретного пользователя")
+    public void checkSuccessGetAllOrders(ValidatableResponse getOrdersResponse) {
+        getOrdersResponse
+                .assertThat()
+                .statusCode(HttpURLConnection.HTTP_OK)
+                .and()
+                .body("success", equalTo(true));
+        OrderResponse order = getOrdersResponse.extract().as(OrderResponse.class);
+        // Получаем конкретный объект из списка Orders
+        List<Orders> ordersList = order.getOrders();
+        MatcherAssert.assertThat(ordersList.get(0).get_id(), notNullValue());
+        MatcherAssert.assertThat(ordersList.get(0).getIngredients(), notNullValue());
+        MatcherAssert.assertThat(ordersList.get(0).getStatus(), notNullValue());
+        MatcherAssert.assertThat(ordersList.get(0).getName(), notNullValue());
+        MatcherAssert.assertThat(ordersList.get(0).getCreatedAt(), notNullValue());
+        MatcherAssert.assertThat(ordersList.get(0).getUpdatedAt(), notNullValue());
+        MatcherAssert.assertThat(ordersList.get(0).getNumber(), notNullValue());
+        MatcherAssert.assertThat(order.getTotal(), notNullValue());
+        MatcherAssert.assertThat(order.getTotalToday(), notNullValue());
+    }
+
+    @Step("Проверка неуспешного получения заказов для пользователя без авторизации")
+    public void checkFailedGetOrders(ValidatableResponse getOrdersResponse) {
+        getOrdersResponse
+                .assertThat()
+                .statusCode(HttpURLConnection.HTTP_UNAUTHORIZED)
+                .and()
+                .body("success", equalTo(false))
+                .body("message", equalTo("You should be authorised"));
     }
 
 }
