@@ -3,10 +3,9 @@ package praktikum.user;
 import com.github.javafaker.Faker;
 import io.qameta.allure.junit4.DisplayName;
 import io.restassured.response.ValidatableResponse;
+import org.apache.commons.lang3.RandomStringUtils;
 import org.junit.After;
 import org.junit.Test;
-
-import java.time.LocalDateTime;
 
 public class LoginUserTest {
 
@@ -43,7 +42,7 @@ public class LoginUserTest {
         var user = User.random();
         var userLogin = UserCredentials.fromUser(user);
         // устанавливаем неверный логин
-        userLogin.setEmail(faker.name().firstName() + "@" + LocalDateTime.now() + ".com");
+        userLogin.setEmail(faker.name().firstName() + RandomStringUtils.randomAlphanumeric(5) + "@mail.com");
         ValidatableResponse createResponse = client.createUser(user);
         accessToken = checks.checkCreateUser(createResponse);
         ValidatableResponse loginResponse = client.loginUser(userLogin);

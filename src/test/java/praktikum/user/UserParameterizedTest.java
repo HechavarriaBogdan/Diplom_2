@@ -4,6 +4,7 @@ import com.github.javafaker.Faker;
 import io.qameta.allure.Allure;
 import io.qameta.allure.junit4.DisplayName;
 import io.restassured.response.ValidatableResponse;
+import org.apache.commons.lang3.RandomStringUtils;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.Parameterized;
@@ -33,9 +34,9 @@ public class UserParameterizedTest {
     public static Object[][] createUserData() {
         Faker faker = new Faker();
         return new Object[][]{
-                {null, faker.name().firstName() + "@" + LocalDateTime.now() + ".com", "123456"},
+                {null, faker.name().firstName() + RandomStringUtils.randomAlphanumeric(5) + "@mail.com", "123456"},
                 {faker.name().firstName(), null, "123456"},
-                {faker.name().firstName(), faker.name().firstName() + "@" + LocalDateTime.now() + ".com", null},
+                {faker.name().firstName(), faker.name().firstName() + RandomStringUtils.randomAlphanumeric(5) + "@mail.com", null},
         };
     }
 
