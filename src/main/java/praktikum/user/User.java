@@ -1,8 +1,7 @@
 package praktikum.user;
 
 import com.github.javafaker.Faker;
-
-import java.time.LocalDateTime;
+import org.apache.commons.lang3.RandomStringUtils;
 
 public class User {
 
@@ -23,10 +22,12 @@ public class User {
     public static User random() {
         Faker faker = new Faker();
         String randomName = faker.name().firstName();
-        String email = faker.name().firstName() + "@" + LocalDateTime.now() + ".com";
+        String email = randomName + RandomStringUtils.randomAlphanumeric(5) + "@mail.com";
         String password = "123456";
         return new User(randomName, email, password);
     }
+
+
 
     public String getEmail() {
         return email;

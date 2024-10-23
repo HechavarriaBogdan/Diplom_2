@@ -13,11 +13,7 @@ public class Ingredients {
     private String image;
     private String image_mobile;
     private String image_large;
-
-
     private int __v;
-
-
 
     public int get__v() {
         return __v;

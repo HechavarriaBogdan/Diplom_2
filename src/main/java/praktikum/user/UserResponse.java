@@ -1,5 +1,8 @@
 package praktikum.user;
 
+
+
+
 public class UserResponse {
     private boolean success;
     private User user;
@@ -37,7 +40,6 @@ public class UserResponse {
     public void setUser(User user) {
         this.user = user;
     }
-
 }
 
 
