@@ -9,7 +9,6 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.Parameterized;
 
-import java.time.LocalDateTime;
 
 @RunWith(Parameterized.class)
 public class UserParameterizedTest {
